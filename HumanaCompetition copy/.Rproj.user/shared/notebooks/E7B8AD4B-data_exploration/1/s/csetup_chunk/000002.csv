@@ -1,0 +1,71 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0","#environment setting"
+"0","library(Hmisc)"
+"2","Loading required package: lattice
+"
+"2","Loading required package: survival
+"
+"2","Loading required package: Formula
+"
+"2","Loading required package: ggplot2
+"
+"2","Warning:"
+"2"," package ‘ggplot2’ was built under R version 4.1.1
+"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","
+Attaching package: ‘Hmisc’
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    format.pval, units
+
+"
+"0","library(data.table)"
+"2","data.table 1.14.0 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+"
+"2","**********
+This installation of data.table has not detected OpenMP support. It should still work but in single-threaded mode.
+This is a Mac. Please read https://mac.r-project.org/openmp/. Please engage with Apple and ask them for support. Check r-datatable.com for updates, and our Mac instructions here: https://github.com/Rdatatable/data.table/wiki/Installation. After several years of many reports of installation problems on Mac, it's time to gingerly point out that there have been no similar problems on Windows or Linux.
+**********
+"
+"0","library(pastecs)"
+"2","
+Attaching package: ‘pastecs’
+
+"
+"2","The following objects are masked from ‘package:data.table’:
+
+    first, last
+
+"
+"0","library(VIM)"
+"2","Warning:"
+"2"," package ‘VIM’ was built under R version 4.1.1
+"
+"2","Loading required package: colorspace
+"
+"2","Loading required package: grid
+"
+"2","VIM is ready to use.
+
+"
+"2","Suggestions and bug-reports can be submitted at: https://github.com/statistikat/VIM/issues
+"
+"2","
+Attaching package: ‘VIM’
+
+"
+"2","The following object is masked from ‘package:datasets’:
+
+    sleep
+
+"

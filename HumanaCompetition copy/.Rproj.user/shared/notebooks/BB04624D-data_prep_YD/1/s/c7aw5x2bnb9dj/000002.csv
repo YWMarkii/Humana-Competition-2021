@@ -1,0 +1,6 @@
+"0","basic_data=read.csv('basic_data.csv')"
+"0","colnames=colnames(basic_data)"
+"0","col1=like(colnames,'atlas',fixed=TRUE) #'atlas'可替换为任意前缀（后缀）"
+"0","col1=colnames[col1] "
+"0","data1=basic_data[,(names(basic_data) %in% col1)] "
+"0","data1=data1[,order(colnames(data1))] #按英文字母表reorder，方便查看"
