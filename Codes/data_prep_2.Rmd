@@ -1,0 +1,103 @@
+---
+title: "data_prep_yw"
+author: "Yijie W"
+date: "2021/10/2"
+output: html_document
+---
+```{r}
+library(tidyverse)
+library(magrittr)
+library("SmartEDA")
+```
+
+
+```{r}
+data <- as.data.frame(fread("D:\\Downloads\\2021_Competition_Training.csv", check.names =F))
+```
+```{r}
+Summary_table <- read.csv("C:\\Users\\lenovo\\Desktop\\tamu\\summary_table_Des.csv")
+```
+```{r}
+data <- data[,order(colnames(data))]
+```
+
+```{r}
+Summary_table <- Summary_table[order(Summary_table$Variable_Name),-1]
+row.names(Summary_table) <- NULL
+Summary_table <- Summary_table[-245,]
+row.names(Summary_table) <- NULL
+```
+
+#keep
+175, 191:196, 241, 242
+
+#KNN
+190, 243
+
+#填充
+```{r}
+#na_dummy_list <- c()
+#na_dummy <- function(colname){
+#  name <- paste0(deparse(substitute(colname)),'_is_null')
+#  data[[name]] <- ifelse(is.na(data$colname), 1, 0)
+#}
+data$cms_is_null <- ifelse(is.na(data$cms_partd_ra_factor_amt), 1, 0)
+data$cons_is_null <- ifelse(is.na(data$cons_cgqs), 1, 0)
+data$credit_is_null <- ifelse(is.na(data$credit_bal_autobank), 1, 0)
+```
+
+```{r}
+is_na_val <- function(x) x %in% c("")
+
+data %<>% mutate_all(funs(ifelse(is_na_val(.), NA, .)))
+```
+
+
+```{r}
+data %<>%
+  replace_na(list(`bh_urgent_care_copay_pmpm_cost_t_12-9-6m_b4` = 'No Activity',#191
+                  cms_orig_reas_entitle_cd = 0,
+                  cms_partd_ra_factor_amt = 0,
+                  cms_risk_adjustment_factor_a_amt = 0,
+                  cms_tot_partd_payment_amt = 0,
+                  cons_hhcomp = 'U',
+                  cons_mobplus = 'U',
+                  cons_ltmedicr = 'NA',
+                  race_cd = 0))
+
+```
+```{r}
+data$lab_albumin_loinc_pmpm_ct  <- ifelse(data$lab_albumin_loinc_pmpm_ct == '*', 0,  as.numeric(data$lab_albumin_loinc_pmpm_ct))
+data$`rej_med_outpatient_visit_ct_pmpm_t_6-3-0m_b4`  <- ifelse(data$`rej_med_outpatient_visit_ct_pmpm_t_6-3-0m_b4` == '*', 
+                                                               'No Activity', data$`rej_med_outpatient_visit_ct_pmpm_t_6-3-0m_b4`)
+data$rej_total_physician_office_visit_ct_pmpm_0to3m_b4  <- ifelse(data$rej_total_physician_office_visit_ct_pmpm_0to3m_b4 == '*', 0,  as.numeric(data$rej_total_physician_office_visit_ct_pmpm_0to3m_b4))
+data$rev_cms_ansth_pmpm_ct  <- ifelse(data$rev_cms_ansth_pmpm_ct == '*', 0,  as.numeric(data$rev_cms_ansth_pmpm_ct))
+```
+
+# 填充中位数
+```{r}
+median_list <- c(205:209, 211,212,214,215,217:224, 226:240)
+impute_data <- function(vec, mn) {
+  ifelse(is.na(vec), mn, vec)
+}
+for(i in median_list) {
+  data[,i]<-impute_data(data[,i],median(data[,i], na.rm = T))
+}
+```
+
+#删除
+176~183
+```{r}
+rm <- c(176:183,245, 248, 249)
+data <- data[,-rm]
+```
+
+```{r}
+summary_after <- ExpData(data=data,type=2)[order(Summary_table$Variable_Name),-1]
+row.names(Summary_table) <- NULL
+```
+
+```{r}
+fwrite(data, file = 'C:\\Users\\lenovo\\Desktop\\tamu\\train_clean_yw.csv')
+```
+
